@@ -14,4 +14,4 @@
  X-GNOME-DocPath=gretl/gretl.xml
 -Categories=Application;Scientific;Econometrics
 -
-+Categories=GTK;GNOME;Science;Econometrics;
++Categories=GTK;GNOME;Education;Science;
