@@ -1,0 +1,159 @@
+diff -Nur gretl-0.96.orig/Makefile.in gretl-0.96/Makefile.in
+--- gretl-0.96.orig/Makefile.in	Mon Nov 12 17:28:19 2001
++++ gretl-0.96/Makefile.in	Mon Nov 12 17:37:02 2001
+@@ -105,7 +105,7 @@
+ 	cd $(plugindir) && $(MAKE) clean	
+ 
+ installdirs:
+-	$(tooldir)/mkinstalldirs $(libdir) $(includedir) $(bindir)
++	$(tooldir)/mkinstalldirs $(DESTDIR)$(libdir) $(DESTDIR)$(includedir) $(DESTDIR)$(bindir)
+ 
+ install: $(GUI) $(CLI) installdirs
+ 	cd $(mklibdir) && $(MAKE) install
+@@ -113,7 +113,7 @@
+ 	cd $(guidir) && $(MAKE) install
+ 	cd $(sharedir) && $(MAKE) install
+ 	cd $(plugindir) && $(MAKE) install
+-	$(tooldir)/install_man $(tooldir) $(prefix) gretl.1
++	$(tooldir)/install_man $(tooldir) $(DESTDIR)$(prefix) gretl.1
+ 
+ install-strip: $(GUI) $(CLI) installdirs
+ 	cd $(mklibdir) && $(MAKE) install-strip
+diff -Nur gretl-0.96.orig/cli/Makefile gretl-0.96/cli/Makefile
+--- gretl-0.96.orig/cli/Makefile	Wed May  2 15:54:09 2001
++++ gretl-0.96/cli/Makefile	Mon Nov 12 17:33:53 2001
+@@ -48,13 +48,13 @@
+ 	$(RL_OBJ) ../lib/libgretl.la $(CLI_LIBS) 
+ 
+ install: $(CLI) installdirs
+-	../libtool $(INSTALL_PROGRAM) $(CLI) $(bindir)/$(CLI)
++	../libtool $(INSTALL_PROGRAM) $(CLI) $(DESTDIR)$(bindir)/$(CLI)
+ 
+ install-strip: $(CLI) installdirs
+ 	../libtool $(INSTALL_PROGRAM) -s $(CLI) $(bindir)/$(CLI)
+ 
+ installdirs: $(tooldir)/mkinstalldirs
+-	$(tooldir)/mkinstalldirs $(bindir)
++	$(tooldir)/mkinstalldirs $(DESTDIR)$(bindir)
+ 
+ clean:
+ 	rm -f *.o $(CLI) core 
+diff -Nur gretl-0.96.orig/gui/Makefile gretl-0.96/gui/Makefile
+--- gretl-0.96.orig/gui/Makefile	Mon Jul 16 18:45:16 2001
++++ gretl-0.96/gui/Makefile	Mon Nov 12 17:34:35 2001
+@@ -75,10 +75,10 @@
+ .PHONY:
+ 
+ install: $(PROG) installdirs
+-	../libtool $(INSTALL_PROGRAM) $(PROG) $(bindir)/$(PROG)
+-	$(INSTALL_PROGRAM) ../gretl_sh $(bindir)/gretl
+-	$(INSTALL_DATA) gretl-logo.xpm $(gretldir)
+-	$(INSTALL_DATA) ../COPYING $(gretldir)
++	../libtool $(INSTALL_PROGRAM) $(PROG) $(DESTDIR)$(bindir)/$(PROG)
++	$(INSTALL_PROGRAM) ../gretl_sh $(DESTDIR)$(bindir)/gretl
++	$(INSTALL_DATA) gretl-logo.xpm $(DESTDIR)$(gretldir)
++	$(INSTALL_DATA) ../COPYING $(DESTDIR)$(gretldir)
+ 
+ install-strip: $(PROG) installdirs
+ 	../libtool $(INSTALL_PROGRAM) -s $(PROG) $(bindir)/$(PROG)
+@@ -87,8 +87,8 @@
+ 	$(INSTALL_DATA) ../COPYING $(gretldir)
+ 
+ installdirs:
+-	$(tooldir)/mkinstalldirs $(bindir) 
+-	$(tooldir)/mkinstalldirs $(gretldir)
++	$(tooldir)/mkinstalldirs $(DESTDIR)$(bindir) 
++	$(tooldir)/mkinstalldirs $(DESTDIR)$(gretldir)
+ 
+ clean:
+ 	rm -f *.o $(PROG) core
+diff -Nur gretl-0.96.orig/lib/Makefile gretl-0.96/lib/Makefile
+--- gretl-0.96.orig/lib/Makefile	Sun Apr 15 18:28:05 2001
++++ gretl-0.96/lib/Makefile	Mon Nov 12 17:33:30 2001
+@@ -74,9 +74,9 @@
+ .PHONY: 
+ 
+ install: $(LIBGRETL) installdirs
+-	../libtool $(INSTALL_PROGRAM) $(LIBGRETL) $(libdir)/$(LIBGRETL)
+-	$(INSTALL_DATA) $(srcdir)/*.h $(includedir)
+-	$(INSTALL_PROGRAM) ../gretl-config $(bindir)
++	../libtool $(INSTALL_PROGRAM) $(LIBGRETL) $(DESTDIR)$(libdir)/$(LIBGRETL)
++	$(INSTALL_DATA) $(srcdir)/*.h $(DESTDIR)$(includedir)
++	$(INSTALL_PROGRAM) ../gretl-config $(DESTDIR)$(bindir)
+ 
+ install-strip: $(LIBGRETL) installdirs
+ 	../libtool $(INSTALL_PROGRAM) -s $(LIBGRETL) $(libdir)/$(LIBGRETL)
+@@ -84,7 +84,7 @@
+ 	$(INSTALL_PROGRAM) ../gretl-config $(bindir)
+ 
+ installdirs:
+-	../tools/mkinstalldirs $(libdir) $(includedir)
++	../tools/mkinstalldirs $(DESTDIR)$(libdir) $(DESTDIR)$(includedir)
+ 
+ clean:
+ 	rm -f *.o *.lo $(LIBGRETL) core 
+diff -Nur gretl-0.96.orig/plugin/Makefile gretl-0.96/plugin/Makefile
+--- gretl-0.96.orig/plugin/Makefile	Fri Apr  6 17:48:09 2001
++++ gretl-0.96/plugin/Makefile	Mon Nov 12 17:36:22 2001
+@@ -47,13 +47,13 @@
+ .PHONY: 
+ 
+ install: $(PLUGINS) installdirs
+-	$(INSTALL_PROGRAM) $(PLUGINS) $(share)/plugins
++	$(INSTALL_PROGRAM) $(PLUGINS) $(DESTDIR)$(share)/plugins
+ 
+ install-strip: $(PLUGINS) installdirs
+ 	$(INSTALL_PROGRAM) -s $(PLUGINS) $(share)/plugins
+ 
+ installdirs:
+-	../tools/mkinstalldirs $(share)/plugins
++	../tools/mkinstalldirs $(DESTDIR)$(share)/plugins
+ 
+ clean:
+ 	rm -f *.o $(PLUGINS) core 
+diff -Nur gretl-0.96.orig/share/Makefile gretl-0.96/share/Makefile
+--- gretl-0.96.orig/share/Makefile	Fri Mar 16 21:35:02 2001
++++ gretl-0.96/share/Makefile	Mon Nov 12 17:35:59 2001
+@@ -9,28 +9,28 @@
+ all: install
+ 
+ install: installdirs install_datafiles install_scripts
+-	$(INSTALL_DATA) gretl.stamp $(gretldir)/gretl.stamp
+-	$(INSTALL_DATA) gretl.hlp $(gretldir)/gretl.hlp
+-	$(INSTALL_DATA) gretlcli.hlp $(gretldir)/gretlcli.hlp
+-	$(INSTALL_DATA) bcih/README $(gretldir)/db/README
+-	$(INSTALL_DATA) bcih/bcih.bin $(gretldir)/db/bcih.bin
+-	$(INSTALL_DATA) bcih/bcih.idx $(gretldir)/db/bcih.idx
++	$(INSTALL_DATA) gretl.stamp $(DESTDIR)$(gretldir)/gretl.stamp
++	$(INSTALL_DATA) gretl.hlp $(DESTDIR)$(gretldir)/gretl.hlp
++	$(INSTALL_DATA) gretlcli.hlp $(DESTDIR)$(gretldir)/gretlcli.hlp
++	$(INSTALL_DATA) bcih/README $(DESTDIR)$(gretldir)/db/README
++	$(INSTALL_DATA) bcih/bcih.bin $(DESTDIR)$(gretldir)/db/bcih.bin
++	$(INSTALL_DATA) bcih/bcih.idx $(DESTDIR)$(gretldir)/db/bcih.idx
+ 
+ install_datafiles:
+ 	for f in data/d* ; do \
+-	$(INSTALL_DATA) $$f $(gretldir)/data ; done 
++	$(INSTALL_DATA) $$f $(DESTDIR)$(gretldir)/data ; done 
+ 	for f in data/greene/* ; do \
+-	$(INSTALL_DATA) $$f $(gretldir)/data/greene ; done
++	$(INSTALL_DATA) $$f $(DESTDIR)$(gretldir)/data/greene ; done
+ 	
+ install_scripts:
+ 	for f in scripts/* ; do \
+-	$(INSTALL_DATA) $$f $(gretldir)/scripts ; done
++	$(INSTALL_DATA) $$f $(DESTDIR)$(gretldir)/scripts ; done
+ 
+ install_man: gretl.1
+-	$(tooldir)/mkinstalldirs $(prefix)/share/man/man1
+-	$(INSTALL_DATA) gretl.1 $(prefix)/share/man/man1
++	$(tooldir)/mkinstalldirs $(DESTDIR)$(prefix)/share/man/man1
++	$(INSTALL_DATA) gretl.1 $(DESTDIR)$(prefix)/share/man/man1
+ 
+ installdirs:
+-	$(tooldir)/mkinstalldirs $(gretldir) $(gretldir)/data 
+-	$(tooldir)/mkinstalldirs $(gretldir)/data/greene
+-	$(tooldir)/mkinstalldirs $(gretldir)/scripts $(gretldir)/db
++	$(tooldir)/mkinstalldirs $(DESTDIR)$(gretldir) $(DESTDIR)$(gretldir)/data 
++	$(tooldir)/mkinstalldirs $(DESTDIR)$(gretldir)/data/greene
++	$(tooldir)/mkinstalldirs $(DESTDIR)$(gretldir)/scripts $(gretldir)/db
