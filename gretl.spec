@@ -15,11 +15,12 @@ Patch2:		%{name}-move_x11_binary.patch
 Patch3:		%{name}-DESTDIR.patch
 Patch4:		%{name}-DESTDIR2.patch
 URL:		http://gretl.sourceforge.net/
+BuildRequires:	automake
 BuildRequires:	gtk+-devel >= 1.2.3
 BuildRequires:	readline-devel
 BuildRequires:	zlib-devel
+Requires:	%{name}-lib = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-Requires:	%{name}-lib = %{version}
 
 %define		_includedir	/usr/include/gretl
 
@@ -51,7 +52,7 @@ Biblioteki Gretl.
 Summary:	Gretl header files
 Summary(pl):	Pliki nag³ówkowe Gretl
 Group:		Development/Libraries
-Requires:	%{name}-lib = %{version}
+Requires:	%{name}-lib = %{version}-%{release}
 
 %description devel
 Package contains header files for building gretl-based software. See
@@ -69,18 +70,19 @@ Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
 %patch4 -p1
 
 %build
+cp -f /usr/share/automake/config.* .
 %configure
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_datadir}/gretl/db,%{_prefix}/X11R6/bin,%{_applnkdir}/Scientific,%{_pixmapsdir}}
-install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Scientific/%{name}.desktop
+install -d $RPM_BUILD_ROOT{%{_datadir}/gretl/db,%{_desktopdir},%{_pixmapsdir}}
+
+install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.xpm
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
-
-mv $RPM_BUILD_ROOT%{_bindir}/gretl_x11 $RPM_BUILD_ROOT%{_prefix}/X11R6/bin/
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -93,10 +95,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc README ChangeLog EXTENDING doc/{gretl-logo.png,*.{pdf,tex,sty}}
 %attr(755,root,root) %{_bindir}/gretl
 %attr(755,root,root) %{_bindir}/gretlcli
-%attr(755,root,root) %{_prefix}/X11R6/bin/gretl_x11
+%attr(755,root,root) %{_bindir}/gretl_x11
 %{_datadir}/gretl
 %{_mandir}/*/*
-%{_applnkdir}/Scientific/*
+%{_desktopdir}/*.desktop
 %{_pixmapsdir}/*
 
 %files lib
