@@ -1,0 +1,44 @@
+--- gretl-1.2.4/configure.in.orig	Mon Mar 29 15:17:39 2004
++++ gretl-1.2.4/configure.in	Mon Mar 29 15:22:56 2004
+@@ -293,14 +293,17 @@
+ dnl Check for gnuplot, and its PNG capacity
+ dnl
+ AC_DEFUN(AC_PROG_GNUPLOT,
+-[AC_CHECK_PROG(GNUPLOT,gnuplot,yes)])
++[AC_CHECK_PROG(GNUPLOT,gnuplot,,no)])
+ 
+ AC_PROG_GNUPLOT
+-test x"${GNUPLOT}" = xyes && AC_DEFINE(HAVE_GNUPLOT,, [dummy]) 
+-if test x"${GNUPLOT}" = xyes ; then
++test x"${GNUPLOT}" != xno && AC_DEFINE(HAVE_GNUPLOT,, [dummy]) 
++if test x"${GNUPLOT}" != xno ; then
+   have_gnuplot=yes
+ fi
+ 
++if test x"$GNUPLOT_PNG" != xyes ; then
++gnuplot_png=yes
++else
+ gnuplot_png=no
+ AC_MSG_CHECKING(for PNG support in gnuplot)
+ echo "set term png" | `which gnuplot` 2>/dev/null && gnuplot_png=yes
+@@ -314,16 +317,17 @@
+   echo "* The current version of gnuplot is available from www.gnuplot.info"
+   exit
+ fi
++fi
+ 
+ dnl
+ dnl Check for latex executable
+ dnl
+ AC_DEFUN(AC_PROG_LATEX,
+-[AC_CHECK_PROG(LATEX,latex,yes)])
++[AC_CHECK_PROG(LATEX,latex,,no)])
+ 
+ AC_PROG_LATEX
+-test x"${LATEX}" = xyes && AC_DEFINE(HAVE_LATEX,, [dummy])
+-if test x"${LATEX}" = xyes ; then
++test x"${LATEX}" != xno && AC_DEFINE(HAVE_LATEX,, [dummy])
++if test x"${LATEX}" != xno ; then
+   have_latex=yes
+ else
+   have_latex=no
