@@ -12,6 +12,7 @@ Patch0:		%{name}-override_readline_tests.patch
 Patch1:		%{name}-use_terminfo_not_termcap.patch
 Patch2:		%{name}-move_x11_binary.patch
 Patch3:		%{name}-DESTDIR.patch
+Patch4:		%{name}-DESTDIR2.patch
 URL:		http://gretl.sourceforge.net/
 BuildRequires:	gtk+-devel >= 1.2.3
 BuildRequires:	readline-devel
@@ -79,6 +80,7 @@ Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 perl -p -i -e 's-/usr/local/share-%{_datadir}-' config.h.in
