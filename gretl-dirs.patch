@@ -16,6 +16,15 @@
  includedir = $(prefix)/include/gretl
  aclocaldir = $(prefix)/share/aclocal
  pkgconfigdir = $(libdir)/pkgconfig
+@@ -89,7 +89,7 @@
+ 
+ $(LIBGRETL): .deps $(LOBJS) $(AUX_LOBJ)
+ 	$(LIBTOOL) --mode=link $(CC) -o $@ $(LOBJS) $(AUX_LOBJ) \
+-	-rpath $(prefix)/lib $(LIBS) -version-info 0:17:0
++	-rpath $(libdir) $(LIBS) -version-info 0:17:0
+ 
+ .deps:
+ 	mkdir $@
 --- gretl-1.2.4/gnome/Makefile.in.orig	Mon Mar 29 15:27:16 2004
 +++ gretl-1.2.4/gnome/Makefile.in	Mon Mar 29 15:33:02 2004
 @@ -7,7 +7,7 @@
