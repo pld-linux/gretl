@@ -88,8 +88,16 @@ mv $RPM_BUILD_ROOT/usr/bin/gretl_x11 $RPM_BUILD_ROOT/usr/X11R6/bin/
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+
+%post
+ln -s /usr/share/gretl/ /usr/local/share/gretl
+%postun
+rm -f /usr/local/share/gretl
+
 %post	lib -p /sbin/ldconfig
 %postun	lib -p /sbin/ldconfig
+
+
 
 %files
 %defattr(644,root,root,755)
