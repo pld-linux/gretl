@@ -1,28 +1,40 @@
 Summary:	Econometric analysis
 Summary(pl):	Analiza ekonometryczna
 Name:		gretl
-Version:	0.96
-Release:	2
+Version:	1.2.4
+Release:	1
 License:	GPL
 Group:		Applications/Math
-Source0:	ftp://ricardo.ecn.wfu.edu/pub/gretl/%{name}-%{version}.tar.gz
-# Source0-md5:	61db4e49fc3a78f97987f2b31dbc6863
-Source1:	%{name}.desktop
-Source2:	%{name}.xpm
-Patch0:		%{name}-override_readline_tests.patch
-Patch1:		%{name}-use_terminfo_not_termcap.patch
-Patch2:		%{name}-move_x11_binary.patch
-Patch3:		%{name}-DESTDIR.patch
-Patch4:		%{name}-DESTDIR2.patch
+Source0:	ftp://ricardo.ecn.wfu.edu/pub/gretl/%{name}-%{version}.tar.bz2
+# Source0-md5:	31dcf07b52f88cab71f8aa11aec992c0
+# files missing from 1.2.4 distribution (taken from CVS)
+Source1:	%{name}-doc-commands.tar.bz2
+# Source1-md5:	45716104288ad81061697757e6acd1de
+Patch0:		%{name}-use_terminfo_not_termcap.patch
+Patch1:		%{name}-DESTDIR.patch
+Patch2:		%{name}-desktop.patch
+Patch3:		%{name}-checks.patch
+Patch4:		%{name}-dirs.patch
 URL:		http://gretl.sourceforge.net/
+BuildRequires:	autoconf >= 2.12
 BuildRequires:	automake
-BuildRequires:	gtk+-devel >= 1.2.3
+BuildRequires:	gettext-devel
+BuildRequires:	gmp-devel >= 4.0.1
+BuildRequires:	gtk+2-devel >= 2.0.0
+BuildRequires:	gtksourceview-devel
+BuildRequires:	libgnomeprintui-devel >= 2.2
+BuildRequires:	libgnomeui-devel >= 2.0
+BuildRequires:	libpng-devel
+BuildRequires:	libtool
+BuildRequires:	libxml2-devel >= 2.5.0
+BuildRequires:	libxslt-devel >= 1.0.30
+BuildRequires:	pkgconfig
 BuildRequires:	readline-devel
 BuildRequires:	zlib-devel
+Requires(post):	/usr/bin/scrollkeeper
+Requires(post):	GConf2
 Requires:	%{name}-lib = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_includedir	/usr/include/gretl
 
 %description
 It is a software package for econometric analysis, written in the C
@@ -62,7 +74,7 @@ gretl package description.
 Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
 
 %prep
-%setup -q
+%setup -q -a1
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -70,44 +82,68 @@ Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
 %patch4 -p1
 
 %build
-cp -f /usr/share/automake/config.* tools
-%configure
+%{__gettextize}
+%{__libtoolize}
+%{__aclocal} -I macros
+%{__autoconf}
+%{__autoheader}
+%configure \
+	GNUPLOT=/usr/bin/gnuplot \
+	GNUPLOT_PNG=yes \
+	LATEX=/usr/bin/latex
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_datadir}/gretl/db,%{_desktopdir},%{_pixmapsdir}}
-
-install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
-install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.xpm
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+# gretl-config is not installed with gtk+2 builds
+rm -f $RPM_BUILD_ROOT%{_mandir}/man1/gretl-config.1*
+
+# plugins are dlopened by *.so
+rm -f $RPM_BUILD_ROOT%{_libdir}/gretl-gtk2/*.la
+
+%find_lang %{name} --with-gnome
+
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+/usr/bin/scrollkeeper-update
+%gconf_schema_install
+
+%postun	-p /usr/bin/scrollkeeper-update
 
 %post	lib -p /sbin/ldconfig
 %postun	lib -p /sbin/ldconfig
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc README ChangeLog EXTENDING doc/{gretl-logo.png,*.{pdf,tex,sty}}
+%doc ChangeLog EXTENDING NEWS README TODO doc/{figures,manual.html}
 %attr(755,root,root) %{_bindir}/gretl
 %attr(755,root,root) %{_bindir}/gretlcli
 %attr(755,root,root) %{_bindir}/gretl_x11
+%dir %{_libdir}/gretl-gtk2
+%attr(755,root,root) %{_libdir}/gretl-gtk2/*.so
 %{_datadir}/gretl
-%{_mandir}/*/*
+%{_datadir}/gtksourceview-*/language-specs/*.lang
+%{_datadir}/mime-info/gretl.*
+%{_omf_dest_dir}/gretl
 %{_desktopdir}/*.desktop
-%{_pixmapsdir}/*
+%{_pixmapsdir}/*.png
+%{_pixmapsdir}/*.xpm
+%{_sysconfdir}/gconf/schemas/*.schemas
+%{_mandir}/man1/gretl.1*
 
 %files lib
 %defattr(644,root,root,755)
-%{_libdir}/*.so.*.*
+%{_libdir}/lib*.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gretl-config
-%attr(755,root,root) %{_libdir}/*.so
-%{_libdir}/*.la
-%{_includedir}
+%attr(755,root,root) %{_libdir}/lib*.so
+%{_libdir}/lib*.la
+%{_includedir}/gretl
+%{_pkgconfigdir}/*.pc
