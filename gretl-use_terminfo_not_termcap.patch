@@ -1,0 +1,51 @@
+diff -Nru gretl-0.96/Makefile.in gretl-0.96-new/Makefile.in
+--- gretl-0.96/Makefile.in	Mon Apr  2 14:00:42 2001
++++ gretl-0.96-new/Makefile.in	Mon Nov 12 14:20:32 2001
+@@ -30,7 +30,7 @@
+   CC = gcc
+ endif
+ ifeq ($(CFLAGS),)
+-  CFLAGS = -g -Wall
++  CFLAGS = -g -Wall -I/usr/include/ncurses
+ endif
+ ifeq ($(MAKE),)
+   MAKE = make
+diff -Nru gretl-0.96/configure gretl-0.96-new/configure
+--- gretl-0.96/configure	Mon Nov 12 14:16:52 2001
++++ gretl-0.96-new/configure	Mon Nov 12 14:18:08 2001
+@@ -6744,7 +6744,7 @@
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+ else
+   ac_check_lib_save_LIBS=$LIBS
+-LIBS="-lreadline -ltermcap $LIBS"
++LIBS="-lreadline -ltinfo $LIBS"
+ cat >conftest.$ac_ext <<_ACEOF
+ #line 6749 "configure"
+ #include "confdefs.h"
+@@ -6791,7 +6791,7 @@
+ echo "${ECHO_T}$ac_cv_lib_readline_readline" >&6
+ if test $ac_cv_lib_readline_readline = yes; then
+   have_readline="yes" ; \
+-  CLI_LIBS="-lreadline -ltermcap" ; cat >>confdefs.h <<\EOF
++  CLI_LIBS="-lreadline -ltinfo" ; cat >>confdefs.h <<\EOF
+ #define HAVE_READLINE 1
+ EOF
+ fi
+@@ -6806,7 +6806,7 @@
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+ else
+   ac_check_lib_save_LIBS=$LIBS
+-LIBS="-lreadline -ltermcap $LIBS"
++LIBS="-lreadline -ltinfo $LIBS"
+ cat >conftest.$ac_ext <<_ACEOF
+ #line 6810 "configure"
+ #include "confdefs.h"
+@@ -6853,7 +6853,7 @@
+ echo "${ECHO_T}$ac_cv_lib_readline_rl_completion_matches" >&6
+ if test $ac_cv_lib_readline_rl_completion_matches = yes; then
+   new_readline="yes" ; \
+-  CLI_LIBS="-lreadline -ltermcap" ; cat >>confdefs.h <<\EOF
++  CLI_LIBS="-lreadline -ltinfo" ; cat >>confdefs.h <<\EOF
+ #define NEW_READLINE 1
+ EOF
+ fi
