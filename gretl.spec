@@ -8,10 +8,14 @@ Group:		Applications/Math
 Group(de):	Applikationen/Mathematik
 Group(pl):	Aplikacje/Matematyczne
 Source0:	ftp://ricardo.ecn.wfu.edu/pub/gretl/%{name}-%{version}.tar.gz
-Patch0:		gretl-override_readline_tests.patch
-Patch1:		gretl-use_terminfo_not_termcap.patch
-Patch2:		gretl-move_x11_binary.patch
+Patch0:		%{name}-override_readline_tests.patch
+Patch1:		%{name}-use_terminfo_not_termcap.patch
+Patch2:		%{name}-move_x11_binary.patch
+Patch3:		%{name}-DESTDIR.patch
 URL:		http://gretl.sourceforge.net/
+BuildRequires:	gtk+-devel >= 1.2.3
+BuildRequires:	readline-devel
+BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Requires:	%{name}-lib = %{version}
 
@@ -27,7 +31,7 @@ from W. Greene.
 %description -l pl
 To jest pakiet do analizy ekonometrycznej. Zawiera bibliotekê,
 narzêdzie dzia³aj±ce z linii poleceñ i graficznego klienta opartego na
-GTK+. Gretl u¿ywa gnuplota do generowania wykresów. Zawiera te¿ przy- 
+GTK+. Gretl u¿ywa gnuplota do generowania wykresów. Zawiera te¿ przy-
 k³adowe pliki z danymi, min. dane z ksi±¿ki W. Green'a
 
 %package lib
@@ -73,6 +77,7 @@ Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %configure
@@ -80,14 +85,14 @@ Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%makeinstall
+install -d $RPM_BUILD_ROOT%{_datadir}/gretl/db
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
 gzip -9nf README ChangeLog EXTENDING 
-mkdir -p $RPM_BUILD_ROOT/usr/X11R6/bin
-mv $RPM_BUILD_ROOT/usr/bin/gretl_x11 $RPM_BUILD_ROOT/usr/X11R6/bin/
+install -d $RPM_BUILD_ROOT%{_prefix}/X11R6/bin
+mv $RPM_BUILD_ROOT%{_bindir}/gretl_x11 $RPM_BUILD_ROOT%{_prefix}/X11R6/bin/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
 
 %post
 ln -s /usr/share/gretl/ /usr/local/share/gretl
@@ -96,8 +101,6 @@ rm -f /usr/local/share/gretl
 
 %post	lib -p /sbin/ldconfig
 %postun	lib -p /sbin/ldconfig
-
-
 
 %files
 %defattr(644,root,root,755)
@@ -109,12 +112,12 @@ rm -f /usr/local/share/gretl
 
 %attr(755,root,root) %{_bindir}/gretl
 %attr(755,root,root) %{_bindir}/gretlcli
-%attr(755,root,root) /usr/X11R6/bin/gretl_x11
+%attr(755,root,root) %{_prefix}/X11R6/bin/gretl_x11
 %{_datadir}/gretl
 %{_mandir}/*/*
 
 %files lib
-%defattr(755,root,root,755)
+%defattr(644,root,root,755)
 %{_libdir}/*
 
 %files devel
