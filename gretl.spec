@@ -46,8 +46,8 @@ from W. Greene.
 %description -l pl
 To jest pakiet do analizy ekonometrycznej. Zawiera bibliotekê,
 narzêdzie dzia³aj±ce z linii poleceñ i graficznego klienta opartego na
-GTK+. Gretl u¿ywa gnuplota do generowania wykresów. Zawiera te¿ przy-
-k³adowe pliki z danymi, min. dane z ksi±¿ki W. Greena
+GTK+. Gretl u¿ywa gnuplota do generowania wykresów. Zawiera te¿ 
+przyk³adowe pliki z danymi, min. dane z ksi±¿ki W. Greena.
 
 %package lib
 Summary:	Gretl Libraries
