@@ -5,8 +5,6 @@ Version:	0.96
 Release:	1
 License:	GPL
 Group:		Applications/Math
-Group(de):	Applikationen/Mathematik
-Group(pl):	Aplikacje/Matematyczne
 Source0:	ftp://ricardo.ecn.wfu.edu/pub/gretl/%{name}-%{version}.tar.gz
 Patch0:		%{name}-override_readline_tests.patch
 Patch1:		%{name}-use_terminfo_not_termcap.patch
@@ -39,13 +37,6 @@ kЁadowe pliki z danymi, min. dane z ksi╠©ki W. Green'a
 Summary:	Gretl Libraries
 Summary(pl):	Biblioteki Gretl
 Group:		Libraries
-Group(de):	Libraries
-Group(es):	Bibliotecas
-Group(fr):	Librairies
-Group(pl):	Biblioteki
-Group(pt_BR):	Bibliotecas
-Group(ru):	Библиотеки
-Group(uk):	Б╕бл╕отеки
 
 %description lib
 Libraries for Gretl. See gretl package description.
@@ -57,13 +48,6 @@ Biblioteki Gretl.
 Summary:	Gretl header files
 Summary(pl):	Pliki nagЁСwkowe Gretl
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name}-lib = %{version}
 
 %description devel
