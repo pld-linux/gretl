@@ -2,10 +2,12 @@ Summary:	Econometric analysis
 Summary(pl):	Analiza ekonometryczna
 Name:		gretl
 Version:	0.96
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Math
 Source0:	ftp://ricardo.ecn.wfu.edu/pub/gretl/%{name}-%{version}.tar.gz
+Source1:	%{name}.desktop
+Source2:	%{name}.xpm
 Patch0:		%{name}-override_readline_tests.patch
 Patch1:		%{name}-use_terminfo_not_termcap.patch
 Patch2:		%{name}-move_x11_binary.patch
@@ -71,7 +73,9 @@ Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_datadir}/gretl/db,%{_prefix}/X11R6/bin}
+install -d $RPM_BUILD_ROOT{%{_datadir}/gretl/db,%{_prefix}/X11R6/bin,%{_applnkdir}/Scientific,%{_pixmapsdir}}
+install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Scientific/%{name}.desktop
+install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.xpm
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
@@ -91,6 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_prefix}/X11R6/bin/gretl_x11
 %{_datadir}/gretl
 %{_mandir}/*/*
+%{_applnkdir}/Scientific/*
+%{_pixmapsdir}/*
 
 %files lib
 %defattr(644,root,root,755)
