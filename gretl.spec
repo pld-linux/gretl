@@ -72,7 +72,7 @@ Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p2
+%patch2 -p1
 
 %build
 %configure
