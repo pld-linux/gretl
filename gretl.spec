@@ -8,6 +8,9 @@ Group:		Applications/Math
 Group(de):	Applikationen/Mathematik
 Group(pl):	Aplikacje/Matematyczne
 Source0:	ftp://ricardo.ecn.wfu.edu/pub/gretl/%{name}-%{version}.tar.gz
+Patch0:		gretl-override_readline_tests.patch
+Patch1:		gretl-use_terminfo_not_termcap.patch
+Patch2:		gretl-move_x11_binary.patch
 URL:		http://gretl.sourceforge.net/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Requires:	%{name}-lib = %{version}
@@ -18,12 +21,14 @@ Requires:	%{name}-lib = %{version}
 It is a software package for econometric analysis, written in the C
 programming language. Comprises a shared library, a command-line
 client program, and a graphical client built using GTK+. Gretl calls
-gnuplot to generate graphs.
+gnuplot to generate graphs. Contains sample data files, like those
+from W. Greene.
 
 %description -l pl
 To jest pakiet do analizy ekonometrycznej. Zawiera bibliotekê,
 narzêdzie dzia³aj±ce z linii poleceñ i graficznego klienta opartego na
-GTK+. Gretl u¿ywa gnuplota do generowania wykresów.
+GTK+. Gretl u¿ywa gnuplota do generowania wykresów. Zawiera te¿ przy- 
+k³adowe pliki z danymi, min. dane z ksi±¿ki W. Green'a
 
 %package lib
 Summary:	Gretl Libraries
@@ -63,20 +68,11 @@ gretl package description.
 %description devel -l pl
 Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
 
-# I will add this package later ;-)
-#%package sample_data
-#Summary:	Gretl sample data
-#Summary(pl):	Przyk³adowe dane do Gretl
-#Group:		Applications/Math
-#Group(de):	Applikationen/Mathematik
-#Group(pl):	Aplikacje/Matematyczne
-#
-#%description sample_data
-#Contains sample data for experiments with gretl econometric software.
-#Contains also data set from William Greene book(!).			
-
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
+%patch2 -p2
 
 %build
 %configure
@@ -86,6 +82,8 @@ Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
 rm -rf $RPM_BUILD_ROOT
 %makeinstall
 gzip -9nf README ChangeLog EXTENDING 
+mkdir -p $RPM_BUILD_ROOT/usr/X11R6/bin
+mv $RPM_BUILD_ROOT/usr/bin/gretl_x11 $RPM_BUILD_ROOT/usr/X11R6/bin/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -101,14 +99,17 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/*.tex
 %doc doc/*.sty
 
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/gretl
+%attr(755,root,root) %{_bindir}/gretlcli
+%attr(755,root,root) /usr/X11R6/bin/gretl_x11
 %{_datadir}/gretl
 %{_mandir}/*/*
 
 %files lib
-%defattr(644,root,root,755)
+%defattr(755,root,root,755)
 %{_libdir}/*
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/gretl-config
 %{_includedir}
