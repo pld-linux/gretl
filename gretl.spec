@@ -7,10 +7,15 @@ Group:		Applications/Math
 Group(de):	Applikationen/Mathematik
 Group(pl):	Aplikacje/Matematyczne
 Source0:	ftp://ricardo.ecn.wfu.edu/pub/gretl/%{name}-%{version}.tar.gz
-Source1:	gretl-scripts.tar.gz
 URL:		http://gretl.sourceforge.net/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root
-Requires:	%{name}-lib=%{version}
+Requires:	%{name}-lib
+
+%define		_perfix		/usr
+%define		_exec_prefix	/usr
+%define		_includedir	/usr/include/gretl
+%define		_libdir		/usr/lib
+%define		_mandir		/usr/man
 
 %description
 Is a software package for econometric analysis, written in the C
@@ -59,43 +64,20 @@ See gretl package description.
 %prep
 rm -rf $RPM_BUILD_ROOT
 
-%setup -a 1 -q
-# Have to move them because ./configure would replace them
-# FIX This lameriade by writing proper %install section
-# instead of make install
-mkdir -p gretl-scripts
-mv gretl gretl-config gretl-scripts
+%setup -q
 
 %build
-./configure --prefix=${RPM_BUILD_ROOT}/usr \
-    --exec-prefix=${RPM_BUILD_ROOT}/usr \
-    --mandir="/usr/man" --disable-gtktest \
-    --disable-gtkextratest --with-readline=yes
-#make
+./configure --prefix=/usr --exec-prefix=/usr --mandir=/usr/man
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install
+%makeinstall
+
 # Configure script seems to have bug, and makes
 # no use of --mandir= 
 mkdir -p $RPM_BUILD_ROOT/usr/man/man1
 mv $RPM_BUILD_ROOT/usr/share/man/man1/* $RPM_BUILD_ROOT/usr/man/man1/
-
-# make install seems to forget about those
-# manuals:
-mkdir -p $RPM_BUILD_ROOT/usr/share/doc/
-cp doc/*.pdf $RPM_BUILD_ROOT/usr/share/doc/
-cp doc/*.tex $RPM_BUILD_ROOT/usr/share/doc/
-cp doc/*.sty $RPM_BUILD_ROOT/usr/share/doc/
-rm -f $RPM_BUILD_ROOT/usr/bin/gretl
-rm -f $RPM_BUILD_ROOT/usr/bin/gretl-config
-
-# This is nasty and lame solution.
-# FIX make install scripts to do this better way
-# SOURCE1 contains gretl and gretl-config scripts
-# with correct paths to execs.
-cp gretl-scripts/* $RPM_BUILD_ROOT/usr/bin/
-
 
 %post -n gretl-lib
 /sbin/ldconfig
@@ -109,7 +91,11 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README COPYING ChangeLog INSTALL EXTENDING 
-%doc doc/gretl-logo.png
+%doc doc/gretl-logo.png 
+%doc doc/*.pdf
+%doc doc/*.tex
+%doc doc/*.sty
+
 %attr(755,root,root) /usr/bin/*
 /usr/share/gretl/*
 /usr/man/*
