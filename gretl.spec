@@ -118,9 +118,11 @@ rm -f /usr/local/share/gretl
 
 %files lib
 %defattr(644,root,root,755)
-%{_libdir}/*
+%{_libdir}/*.so.*.*
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gretl-config
+%attr(755,root,root) %{_libdir}/*.so
+%attr(755,root,root) %{_libdir}/*.la
 %{_includedir}
