@@ -1,9 +1,17 @@
 --- gretl-1.2.4/gnome/gretl.desktop.orig	Mon Aug 26 22:01:14 2002
 +++ gretl-1.2.4/gnome/gretl.desktop	Mon Mar 29 14:58:14 2004
-@@ -6,5 +6,4 @@
- Terminal=0
+@@ -1,10 +1,11 @@
+ [Desktop Entry]
++Encoding=UTF-8
+ Name=gretl
+ Comment=Econometrics program
++Comment[pl]=Program do ekonometrii
+ Exec=gretl
+ Icon=gretl.png
+-Terminal=0
++Terminal=false
  Type=Application
  X-GNOME-DocPath=gretl/gretl.xml
 -Categories=Application;Scientific;Econometrics
 -
-+Categories=Science;Econometrics;
++Categories=GTK;GNOME;Science;Econometrics;
