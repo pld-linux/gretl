@@ -1,0 +1,6 @@
+- cleanups
+- don't force /usr/man (not FHS compatible)
+- don't include man1/ in the package
+- gzip the docs
+- use %%configure
+- adapterized
