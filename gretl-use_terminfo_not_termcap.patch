@@ -1,51 +1,189 @@
-diff -Nru gretl-0.96/Makefile.in gretl-0.96-new/Makefile.in
---- gretl-0.96/Makefile.in	Mon Apr  2 14:00:42 2001
-+++ gretl-0.96-new/Makefile.in	Mon Nov 12 14:20:32 2001
-@@ -30,7 +30,7 @@
-   CC = gcc
- endif
- ifeq ($(CFLAGS),)
--  CFLAGS = -g -Wall
-+  CFLAGS = -g -Wall -I/usr/include/ncurses
- endif
- ifeq ($(MAKE),)
-   MAKE = make
-diff -Nru gretl-0.96/configure gretl-0.96-new/configure
---- gretl-0.96/configure	Mon Nov 12 14:16:52 2001
-+++ gretl-0.96-new/configure	Mon Nov 12 14:18:08 2001
-@@ -6744,7 +6744,7 @@
-   echo $ECHO_N "(cached) $ECHO_C" >&6
+--- gretl-1.2.4/macros/readline.m4.orig	Tue Apr 22 17:16:49 2003
++++ gretl-1.2.4/macros/readline.m4	Mon Mar 29 13:55:06 2004
+@@ -22,16 +22,17 @@
+   AC_CHECK_HEADER(readline/readline.h, have_rl_header="yes", have_rl_header="no")
+ 
+   dnl check for the libraries that readline depends on
+-  AC_CHECK_LIB(termcap, tgetent, termcap_lib=-ltermcap,
+-  [AC_CHECK_LIB(curses, tgetent, termcap_lib=-lcurses,
++  AC_CHECK_LIB(tinfo, tgetent, termcap_lib=-ltinfo,
+   [AC_CHECK_LIB(ncurses, tgetent, termcap_lib=-lncurses,
+-  termcap_lib='')])])
++  [AC_CHECK_LIB(curses, tgetent, termcap_lib=-lcurses,
++  [AC_CHECK_LIB(termcap, tgetent, termcap_lib=-ltermcap,
++  termcap_lib='')])])])
+ 
+   AC_CHECK_LIB(readline, readline, have_readline="yes" ; \
+-     AC_DEFINE(HAVE_READLINE),,$termcap_lib)
++     AC_DEFINE(HAVE_READLINE,, [dummy]),,$termcap_lib)
+   AC_SUBST(have_readline)
+ 
+-  AC_CHECK_LIB(readline, rl_completion_matches, AC_DEFINE(NEW_READLINE),,$termcap_lib)
++  AC_CHECK_LIB(readline, rl_completion_matches, AC_DEFINE(NEW_READLINE,, [dummy]),,$termcap_lib)
+   AC_SUBST(new_readline)
+ 
+   dnl remove any extraneous stuff from the flags and libs lines
+--- gretl-1.2.4/configure.in.orig	Fri Feb 27 15:39:04 2004
++++ gretl-1.2.4/configure.in	Mon Mar 29 13:15:04 2004
+@@ -5,7 +5,7 @@
+ AC_INIT(lib/src/version.h)
+ AC_PREREQ(2.12)
+ AC_CONFIG_HEADER(config.h)
+-AC_CONFIG_AUX_DIR($srcdir/tools)
++AC_CONFIG_AUX_DIR(tools)
+ 
+ PACKAGE=gretl
+ 
+@@ -15,9 +15,9 @@
+ LIBGRETL_AGE=`grep LIBGRETL_AGE $srcdir/lib/src/version.h | awk '{ print $NF }'`
+ LIBVERSION="$LIBGRETL_CURRENT.$LIBGRETL_AGE.$LIBGRETL_REVISION"
+ 
+-AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
+-AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
+-AC_DEFINE_UNQUOTED(LIBVERSION, "$LIBVERSION")
++AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE", [dummy])
++AC_DEFINE_UNQUOTED(VERSION, "$VERSION", [dummy])
++AC_DEFINE_UNQUOTED(LIBVERSION, "$LIBVERSION", [dummy])
+ AC_SUBST(PACKAGE)
+ AC_SUBST(VERSION)
+ AC_SUBST(LIBVERSION)
+@@ -185,10 +185,10 @@
+ then
+   have_x12a="no"
  else
-   ac_check_lib_save_LIBS=$LIBS
--LIBS="-lreadline -ltermcap $LIBS"
-+LIBS="-lreadline -ltinfo $LIBS"
- cat >conftest.$ac_ext <<_ACEOF
- #line 6749 "configure"
- #include "confdefs.h"
-@@ -6791,7 +6791,7 @@
- echo "${ECHO_T}$ac_cv_lib_readline_readline" >&6
- if test $ac_cv_lib_readline_readline = yes; then
-   have_readline="yes" ; \
--  CLI_LIBS="-lreadline -ltermcap" ; cat >>confdefs.h <<\EOF
-+  CLI_LIBS="-lreadline -ltinfo" ; cat >>confdefs.h <<\EOF
- #define HAVE_READLINE 1
- EOF
- fi
-@@ -6806,7 +6806,7 @@
-   echo $ECHO_N "(cached) $ECHO_C" >&6
+-  AC_DEFINE(HAVE_X12A)
++  AC_DEFINE(HAVE_X12A,, [dummy])
+   HAVE_X12A=1
+ fi,
+-AC_DEFINE(HAVE_X12A)
++AC_DEFINE(HAVE_X12A,, [dummy])
+ HAVE_X12A=1)
+ AC_SUBST(HAVE_X12A)
+ 
+@@ -198,16 +198,16 @@
+ then
+   have_tramo="no"
  else
-   ac_check_lib_save_LIBS=$LIBS
--LIBS="-lreadline -ltermcap $LIBS"
-+LIBS="-lreadline -ltinfo $LIBS"
- cat >conftest.$ac_ext <<_ACEOF
- #line 6810 "configure"
- #include "confdefs.h"
-@@ -6853,7 +6853,7 @@
- echo "${ECHO_T}$ac_cv_lib_readline_rl_completion_matches" >&6
- if test $ac_cv_lib_readline_rl_completion_matches = yes; then
-   new_readline="yes" ; \
--  CLI_LIBS="-lreadline -ltermcap" ; cat >>confdefs.h <<\EOF
-+  CLI_LIBS="-lreadline -ltinfo" ; cat >>confdefs.h <<\EOF
- #define NEW_READLINE 1
- EOF
+-  AC_DEFINE(HAVE_TRAMO)
++  AC_DEFINE(HAVE_TRAMO,, [dummy])
+   HAVE_TRAMO=1
+ fi,
+-AC_DEFINE(HAVE_TRAMO)
++AC_DEFINE(HAVE_TRAMO,, [dummy])
+ HAVE_TRAMO=1)
+ AC_SUBST(HAVE_TRAMO)
+ 
+ AC_PROG_CC
+ 
+-AC_DEFINE_UNQUOTED(OS_TYPE, "$host_os")
++AC_DEFINE_UNQUOTED(OS_TYPE, "$host_os", [dummy])
+ AC_PROG_INSTALL
+ 
+ AC_DISABLE_STATIC
+@@ -268,14 +268,14 @@
+ dnl Check for zlib
+ dnl
+ AC_CHECK_LIB(z, gzopen,have_zlib="yes" ; \
+-  ZLIB="-lz" ; AC_DEFINE(HAVE_ZLIB),,)
++  ZLIB="-lz" ; AC_DEFINE(HAVE_ZLIB,, [dummy]),,)
+ AC_SUBST(have_zlib)
+ 
+ dnl
+ dnl See if GMP lib is available
+ dnl
+ if test x"${try_gmp}" != xno ; then
+-  AM_PATH_GMP(4.0.1, have_gmp="yes" ; AC_DEFINE(ENABLE_GMP))
++  AM_PATH_GMP(4.0.1, have_gmp="yes" ; AC_DEFINE(ENABLE_GMP,, [dummy]))
  fi
+ 
+ dnl
+@@ -296,7 +296,7 @@
+ [AC_CHECK_PROG(GNUPLOT,gnuplot,yes)])
+ 
+ AC_PROG_GNUPLOT
+-test x"${GNUPLOT}" = xyes && AC_DEFINE(HAVE_GNUPLOT) 
++test x"${GNUPLOT}" = xyes && AC_DEFINE(HAVE_GNUPLOT,, [dummy]) 
+ if test x"${GNUPLOT}" = xyes ; then
+   have_gnuplot=yes
+ fi
+@@ -306,7 +306,7 @@
+ echo "set term png" | `which gnuplot` 2>/dev/null && gnuplot_png=yes
+ if test x"${gnuplot_png}" = xyes ; then
+   AC_MSG_RESULT(yes)
+-  AC_DEFINE(GNUPLOT_PNG)
++  AC_DEFINE(GNUPLOT_PNG,, [dummy])
+ else
+   AC_MSG_RESULT(no)
+   echo
+@@ -322,7 +322,7 @@
+ [AC_CHECK_PROG(LATEX,latex,yes)])
+ 
+ AC_PROG_LATEX
+-test x"${LATEX}" = xyes && AC_DEFINE(HAVE_LATEX)
++test x"${LATEX}" = xyes && AC_DEFINE(HAVE_LATEX,, [dummy])
+ if test x"${LATEX}" = xyes ; then
+   have_latex=yes
+ else
+@@ -351,7 +351,7 @@
+       CFLAGS="$CFLAGS $GTK_CFLAGS"
+       LIBS="$LIBS $GTK_LIBS"
+       have_gtk="2.0"
+-      AC_DEFINE(USE_GTK2),
++      AC_DEFINE(USE_GTK2,, [dummy]),
+       have_gtk="no"      
+     )
+ fi
+@@ -367,7 +367,7 @@
+      have_gtksourceview="yes"
+      have_gnu_regex="yes"
+      use_gtksourceview="yes"
+-     AC_DEFINE(USE_GTKSOURCEVIEW),
++     AC_DEFINE(USE_GTKSOURCEVIEW,, [dummy]),
+      have_gtksourceview="no"
+     )
+ fi
+@@ -387,7 +387,7 @@
+    test "$have_gtksourceview" = "no" && \
+    test "$have_libxml2" = "yes" ; then
+     AC_CHECK_FUNCS([re_compile_pattern re_compile_fastmap re_search re_match],
+-    AC_DEFINE(USE_GTKSOURCEVIEW)
++    AC_DEFINE(USE_GTKSOURCEVIEW,, [dummy])
+     have_gnu_regex="yes"
+     use_gtksourceview="yes",
+     have_gtksourceview="no")
+@@ -453,7 +453,7 @@
+ fi
+ 
+ if test ${png_comments} = yes && test ${png_failed} = no ; then
+-   AC_DEFINE(PNG_COMMENTS)
++   AC_DEFINE(PNG_COMMENTS,, [dummy])
+ fi
+ 
+ dnl
+@@ -484,7 +484,7 @@
+ dnl If we have gtk 2.0, test for gnome 2.0
+     if test "$have_gtk" = "2.0" ; then
+         PKG_CHECK_MODULES(GNOME, libgnomeui-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 gconf-2.0,
+-           AC_DEFINE(USE_GNOME)
++           AC_DEFINE(USE_GNOME,, [dummy])
+            have_gnome="2.0"
+            if test "${gnome_prefix}" = "NA" ; then
+                gnome_prefix=`pkg-config --variable=prefix libgnome-2.0`
+@@ -509,7 +509,7 @@
+        GNOME_CFLAGS=''
+        GNOME_LIBS=''
+        if test x"${GNOME}" = xyes ; then
+-           AC_DEFINE(USE_GNOME)
++           AC_DEFINE(USE_GNOME,, [dummy])
+            have_gnome="1.4"
+            if test "${gnome_prefix}" = "NA" ; then
+                gnome_prefix="`gnome-config --prefix`"
+@@ -565,7 +565,7 @@
+ if test "${prefix}" = "NONE" ; then
+    prefix="/usr/local"
+ fi
+-AC_DEFINE_UNQUOTED(GRETL_PREFIX, "${prefix}")
++AC_DEFINE_UNQUOTED(GRETL_PREFIX, "${prefix}", [dummy])
+ 
+ dnl Create output
+ CFLAGS="$orig_CFLAGS"
