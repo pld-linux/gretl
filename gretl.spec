@@ -31,7 +31,7 @@ BuildRequires:	libxslt-devel >= 1.0.30
 BuildRequires:	pkgconfig
 BuildRequires:	readline-devel
 BuildRequires:	zlib-devel
-Requires(post):	/usr/bin/scrollkeeper
+Requires(post):	/usr/bin/scrollkeeper-update
 Requires(post):	GConf2
 Requires:	%{name}-lib = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
