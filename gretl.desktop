@@ -4,6 +4,6 @@ Comment=Econometric analysis package
 Comment[pl]=Pakiet do analizy ekonometrycznej
 Icon=gretl.xpm
 Exec=gretl_x11
-Terminal=0
+Terminal=false
 Type=Application
 # vi: encoding=utf-8
