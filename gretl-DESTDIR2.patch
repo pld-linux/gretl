@@ -1,0 +1,9 @@
+diff -urN gretl-0.96/share/Makefile gretl-0.96-improved/share/Makefile
+--- gretl-0.96/share/Makefile	Fri Nov 16 23:54:57 2001
++++ gretl-0.96-improved/share/Makefile	Fri Nov 16 23:57:40 2001
+@@ -33,4 +33,4 @@
+ installdirs:
+ 	$(tooldir)/mkinstalldirs $(DESTDIR)$(gretldir) $(DESTDIR)$(gretldir)/data 
+ 	$(tooldir)/mkinstalldirs $(DESTDIR)$(gretldir)/data/greene
+-	$(tooldir)/mkinstalldirs $(DESTDIR)$(gretldir)/scripts $(gretldir)/db
++	$(tooldir)/mkinstalldirs $(DESTDIR)$(gretldir)/scripts $(DESTDIR)$(gretldir)/db
