@@ -17,7 +17,6 @@ URL:		http://gretl.sourceforge.net/
 BuildRequires:	gtk+-devel >= 1.2.3
 BuildRequires:	readline-devel
 BuildRequires:	zlib-devel
-BuildRequires:	perl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Requires:	%{name}-lib = %{version}
 
@@ -83,7 +82,6 @@ Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
 %patch4 -p1
 
 %build
-perl -p -i -e 's-/usr/local/share-%{_datadir}-' config.h.in
 %configure
 %{__make}
 
