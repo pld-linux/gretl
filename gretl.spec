@@ -6,6 +6,7 @@ Release:	2
 License:	GPL
 Group:		Applications/Math
 Source0:	ftp://ricardo.ecn.wfu.edu/pub/gretl/%{name}-%{version}.tar.gz
+# Source0-md5:	61db4e49fc3a78f97987f2b31dbc6863
 Source1:	%{name}.desktop
 Source2:	%{name}.xpm
 Patch0:		%{name}-override_readline_tests.patch
