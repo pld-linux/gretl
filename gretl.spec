@@ -77,7 +77,7 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/gretl/db,%{_prefix}/X11R6/bin}
 
 mv $RPM_BUILD_ROOT%{_bindir}/gretl_x11 $RPM_BUILD_ROOT%{_prefix}/X11R6/bin/
 
-gzip -9nf README ChangeLog EXTENDING 
+gzip -9nf README ChangeLog EXTENDING
 
 %clean
 rm -rf $RPM_BUILD_ROOT
