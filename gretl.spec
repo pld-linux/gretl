@@ -70,7 +70,7 @@ Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
 %patch4 -p1
 
 %build
-cp -f /usr/share/automake/config.* .
+cp -f /usr/share/automake/config.* tools
 %configure
 %{__make}
 
