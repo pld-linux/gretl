@@ -20,6 +20,7 @@ BuildRequires:	autoconf >= 2.12
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	gmp-devel >= 4.0.1
+BuildRequires:	gnuplot
 BuildRequires:	gtk+2-devel >= 1:2.0.0
 BuildRequires:	gtksourceview-devel
 BuildRequires:	libgnomeprintui-devel >= 2.2
