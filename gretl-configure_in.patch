@@ -1,0 +1,11 @@
+--- gretl-1.2.4/configure.in~	2005-05-27 14:24:48.267893488 +0000
++++ gretl-1.2.4/configure.in	2005-05-27 14:24:48.267893488 +0000
+@@ -301,7 +301,7 @@
+   have_gnuplot=yes
+ fi
+ 
+-if test x"$GNUPLOT_PNG" != xyes ; then
++if test x"$GNUPLOT_PNG" = xyes ; then
+ gnuplot_png=yes
+ else
+ gnuplot_png=no
