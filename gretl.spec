@@ -2,7 +2,7 @@ Summary:	Econometric analysis
 Summary(pl):	Analiza ekonometryczna
 Name:		gretl
 Version:	1.2.4
-Release:	7
+Release:	8
 License:	GPL
 Group:		Applications/Math
 Source0:	ftp://ricardo.ecn.wfu.edu/pub/gretl/%{name}-%{version}.tar.bz2
@@ -19,10 +19,12 @@ Patch5:		%{name}-configure_in.patch
 URL:		http://gretl.sourceforge.net/
 BuildRequires:	autoconf >= 2.12
 BuildRequires:	automake
+BuildRequires:	gcc-g77
 BuildRequires:	gettext-devel
 BuildRequires:	gmp-devel >= 4.0.1
 BuildRequires:	gtk+2-devel >= 1:2.0.0
 BuildRequires:	gtksourceview-devel
+BuildRequires:	lapack-devel
 BuildRequires:	libgnomeprintui-devel >= 2.2
 BuildRequires:	libgnomeui-devel >= 2.0
 BuildRequires:	libpng-devel
