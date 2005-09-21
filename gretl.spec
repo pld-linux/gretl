@@ -2,7 +2,7 @@ Summary:	Econometric analysis
 Summary(pl):	Analiza ekonometryczna
 Name:		gretl
 Version:	1.2.4
-Release:	9
+Release:	10
 License:	GPL
 Group:		Applications/Math
 Source0:	ftp://ricardo.ecn.wfu.edu/pub/gretl/%{name}-%{version}.tar.bz2
@@ -16,6 +16,7 @@ Patch2:		%{name}-desktop.patch
 Patch3:		%{name}-checks.patch
 Patch4:		%{name}-dirs.patch
 Patch5:		%{name}-configure_in.patch
+Patch6:		%{name}-buffer_overflow.patch
 URL:		http://gretl.sourceforge.net/
 BuildRequires:	autoconf >= 2.12
 BuildRequires:	automake
@@ -84,6 +85,7 @@ Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 %{__gettextize}
