@@ -1,0 +1,11 @@
+--- gretl-1.2.4/doc/commands/reflow.c.orig	2005-09-21 14:00:13.000000000 +0200
++++ gretl-1.2.4/doc/commands/reflow.c	2005-09-21 14:00:24.000000000 +0200
+@@ -394,7 +394,7 @@
+ 
+ int main (void)
+ { 
+-    char buf[8096]; /* can't handle paragraphs > 8Kb */
++    char buf[80960]; /* can't handle paragraphs > 80Kb */
+     char line[128];
+     int blank = 0;
+ 
