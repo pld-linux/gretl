@@ -5,7 +5,7 @@ Version:	1.2.4
 Release:	11
 License:	GPL
 Group:		Applications/Math
-Source0:	ftp://ricardo.ecn.wfu.edu/pub/gretl/%{name}-%{version}.tar.bz2
+Source0:	http://dl.sourceforge.net/gretl/%{name}-%{version}.tar.bz2
 # Source0-md5:	31dcf07b52f88cab71f8aa11aec992c0
 # files missing from 1.2.4 distribution (taken from CVS)
 Source1:	%{name}-doc-commands.tar.bz2
