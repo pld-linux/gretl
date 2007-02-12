@@ -1,5 +1,5 @@
 Summary:	Econometric analysis
-Summary(pl):	Analiza ekonometryczna
+Summary(pl.UTF-8):   Analiza ekonometryczna
 Name:		gretl
 Version:	1.2.4
 Release:	11
@@ -48,26 +48,26 @@ client program, and a graphical client built using GTK+. Gretl calls
 gnuplot to generate graphs. Contains sample data files, like those
 from W. Greene.
 
-%description -l pl
-To jest pakiet do analizy ekonometrycznej. Zawiera bibliotekê,
-narzêdzie dzia³aj±ce z linii poleceñ i graficznego klienta opartego na
-GTK+. Gretl u¿ywa gnuplota do generowania wykresów. Zawiera te¿ 
-przyk³adowe pliki z danymi, min. dane z ksi±¿ki W. Greena.
+%description -l pl.UTF-8
+To jest pakiet do analizy ekonometrycznej. Zawiera bibliotekÄ™,
+narzÄ™dzie dziaÅ‚ajÄ…ce z linii poleceÅ„ i graficznego klienta opartego na
+GTK+. Gretl uÅ¼ywa gnuplota do generowania wykresÃ³w. Zawiera teÅ¼ 
+przykÅ‚adowe pliki z danymi, min. dane z ksiÄ…Å¼ki W. Greena.
 
 %package lib
 Summary:	Gretl Libraries
-Summary(pl):	Biblioteki Gretl
+Summary(pl.UTF-8):   Biblioteki Gretl
 Group:		Libraries
 
 %description lib
 Libraries for Gretl. See gretl package description.
 
-%description lib -l pl
+%description lib -l pl.UTF-8
 Biblioteki Gretl.
 
 %package devel
 Summary:	Gretl header files
-Summary(pl):	Pliki nag³ówkowe Gretl
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe Gretl
 Group:		Development/Libraries
 Requires:	%{name}-lib = %{version}-%{release}
 
@@ -75,8 +75,8 @@ Requires:	%{name}-lib = %{version}-%{release}
 Package contains header files for building gretl-based software. See
 gretl package description.
 
-%description devel -l pl
-Pliki nag³ówkowe potrzebne do budowania programów bazuj±cych na gretl.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe potrzebne do budowania programÃ³w bazujÄ…cych na gretl.
 
 %prep
 %setup -q -a1
