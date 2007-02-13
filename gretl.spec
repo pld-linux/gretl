@@ -1,5 +1,5 @@
 Summary:	Econometric analysis
-Summary(pl.UTF-8):   Analiza ekonometryczna
+Summary(pl.UTF-8):	Analiza ekonometryczna
 Name:		gretl
 Version:	1.2.4
 Release:	11
@@ -56,7 +56,7 @@ przykładowe pliki z danymi, min. dane z książki W. Greena.
 
 %package lib
 Summary:	Gretl Libraries
-Summary(pl.UTF-8):   Biblioteki Gretl
+Summary(pl.UTF-8):	Biblioteki Gretl
 Group:		Libraries
 
 %description lib
@@ -67,7 +67,7 @@ Biblioteki Gretl.
 
 %package devel
 Summary:	Gretl header files
-Summary(pl.UTF-8):   Pliki nagłówkowe Gretl
+Summary(pl.UTF-8):	Pliki nagłówkowe Gretl
 Group:		Development/Libraries
 Requires:	%{name}-lib = %{version}-%{release}
 
