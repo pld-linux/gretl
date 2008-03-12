@@ -2,7 +2,7 @@ Summary:	Econometric analysis
 Summary(pl.UTF-8):	Analiza ekonometryczna
 Name:		gretl
 Version:	1.2.4
-Release:	11
+Release:	12
 License:	GPL
 Group:		Applications/Math
 Source0:	http://dl.sourceforge.net/gretl/%{name}-%{version}.tar.bz2
