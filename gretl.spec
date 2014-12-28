@@ -22,7 +22,7 @@ URL:		http://gretl.sourceforge.net/
 BuildRequires:	autoconf >= 2.12
 BuildRequires:	automake
 BuildRequires:	gcc-g77
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	gmp-devel >= 4.0.1
 BuildRequires:	gtk+2-devel >= 1:2.0.0
 BuildRequires:	gtksourceview-devel
